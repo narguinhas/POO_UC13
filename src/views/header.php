@@ -30,7 +30,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
                     <li class="nav-item"><a class="nav-link" href="index.php?page=aluno">Cadastro de Aluno</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=curso">Cadastro de Curso</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?page=escola">Cadastro de Escola</a></li>
-                    <button type="button"><a class="nav-link" href= "index.php?page=login">Sair</button>
+                    <li class="nav-item"><a class="nav-link" href= "index.php?page=login">Login</button>
 
                 </ul>
             </div>

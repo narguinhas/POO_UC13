@@ -1,5 +1,5 @@
 <?php
-include 'db/conexao.php';
+include 'db/db.php';
  
 class usuario 
 {
@@ -7,7 +7,8 @@ class usuario
     private $conn;
  
     public function __construct() {
-        $this->conn = Conexao::getConexao();
+        $database = new Database();
+       $this->conn = $database->getConnection();
     }
  
     public function autenticar($email, $senha) {
