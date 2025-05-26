@@ -1,11 +1,12 @@
 <?php
  
+include "db/db.php";
+ 
 class Aluno {
-    public $curso;
     public $nome;
     public $idade;
     private $cpf;
-    
+    public $curso;
  
     // Construtor com validação
     public function __construct($nome, $idade, $cpf, $curso) {
@@ -18,12 +19,9 @@ class Aluno {
         if (empty($cpf)) {
             throw new Exception("O campo CPF é obrigatório.");
         }
-
         if (empty($curso)) {
             throw new Exception("O campo Curso é obrigatório.");
         }
-
-
         $this->nome = $nome;
         $this->idade = $idade;
         $this->cpf = $cpf;
@@ -35,11 +33,30 @@ class Aluno {
         return $this->cpf;
     }
  
-    // Método para exibir os dados
-    public function exibirDados() {
-        echo "<p>Nome: <strong>$this->nome</strong><br>";
-        echo "Idade: <strong>$this->idade</strong> anos<br>";
-        echo "CPF: <strong>" . $this->getCpf() . "</strong></p>";
-        echo "<p>Curso: <strong>$this->curso</strong></p>";
+   // 🔹 MÉTODO NOVO: salvar no banco
+    public function salvarNoBanco() {
+        $database = new Conexao();
+        $conn = $database->getConexao();
+        $sql = "INSERT INTO aluno (nome, idade, cpf) VALUES (:nome, :idade, :cpf)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':idade', $this->idade);
+        $stmt->bindParam(':cpf', $this->cpf);
+        return $stmt->execute();
+ 
+    }
+    // Método para listar os alunos
+    public static function listar() {
+        // Conexão com o banco de dados
+        $database = new Conexao();
+        $conn = $database->getConexao();
+ 
+        // Preparar a consulta SQL
+        $query = "SELECT * FROM aluno";
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+ 
+        // Retornar os resultados
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
